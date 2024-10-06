@@ -12,8 +12,9 @@ export class DockerImagesService extends BaseHttpService<Image> {
         super(http, 'docker/images'); 
     }
 
-    listarImagens(): Observable<Image[]> {
-        return this.http.get<Image[]>(`${this.url}/list`); 
+    listarImagens(showAll: boolean = false): Observable<Image[]> {
+        const params = new HttpParams().set('showAll', showAll.toString());
+        return this.http.get<Image[]>(`${this.url}/list`, { params }); 
     }
 
     filtrarImagens(imageName: string = 'image-'): Observable<Image[]> {

@@ -1,0 +1,17 @@
+<p-table [value]="data">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Image</th>
+            <th>Size</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <tr *ngFor="let item of data">
+            <td>{{ item.Labels?.name || 'N/A' }}</td> 
+            <td>{{ item.RepoTags[0] || item.Id }}</td> 
+            <td>{{ item.Size | number: '1.0-0' }} bytes</td>
+        </tr>
+    </ng-template>
+</p-table>

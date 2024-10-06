@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { Container } from '../../model/dto/container';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
