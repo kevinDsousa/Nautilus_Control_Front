@@ -112,7 +112,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     SpeedDialModule,
     DataViewModule,
     ScrollTopModule,
-    SkeletonModule
+    SkeletonModule,
   ],
 })
 export class PrimengModule {}
