@@ -1,0 +1,344 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~primeng/resources/primeng.min.css';
+
+@import '~primeflex/primeflex.css';
+@import '~primeicons/primeicons.css';
+
+:root {
+  --primary-font-family: 'Montserrat', Open Sans, Helvetica Neue Light,
+    Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  --secondary-font-family: 'Inter', Open Sans, Helvetica Neue Light,
+    Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  --primary-color: #7f57f1;
+  --secondary-color: #018187;
+  --complementary-color: #7f57f11a;
+  --gray-color: #808080;
+  --secondary-gray-color: #646464;
+  --tertiary-gray-color: #D9D9D9;
+  --success-color: #019833;
+  --color-black: #1f1f1f;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: local('Montserrat'),
+    url(./assets/fonts/montserrat.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter'), url(./assets/fonts/inter.ttf) format('truetype');
+}
+
+.p-component,
+.p-inputtext,
+.p-card,
+.vertical,
+.horizontal,
+.p-tabview-title {
+  font-family: var(--primary-font-family);
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background-color: var(--background-body-color);
+  font-family: var(--primary-font-family);
+}
+
+body {
+  font-family: var(--primary-font-family);
+  font-size: 1rem;
+  height: 100%;
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  // .container {
+  //   width: 750px;
+  // }
+
+  .container-thin {
+    width: 600px;
+  }
+}
+
+@media (min-width: 992px) {
+  // .container {
+  //   width: 970px;
+  // }
+  .container-thin {
+    width: 800px;
+  }
+}
+
+@media (min-width: 1200px) {
+  // .container {
+  //   width: 1170px;
+  // }
+  .container-thin {
+    width: 800px;
+  }
+}
+
+// @media (max-width: 1899px) {
+//   .container {
+//     width: 90%
+//   }
+// }
+
+// @media (min-width: 1900px) {
+//   .container {
+//     width: 1450px;
+//   }
+// }
+
+.container {
+  width: 100%;
+  padding: 0 32px;
+}
+
+.admin-container {
+  padding: 0px 24px 0px 24px;
+}
+
+.container,
+.container-thin {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.text-gray-secondary {
+  color: var(--secondary-gray-color);
+}
+
+.text-danger {
+  color: #ff0000;
+}
+
+.text-danger-secondary {
+  color: #c4121a;
+}
+
+.w-full {
+  .p-dropdown {
+    width: 100%;
+    height: 37px;
+  }
+  .p-multiselect {
+    width: 100%;
+  }
+  .p-inputmask {
+    width: 100%;
+  }
+  .p-calendar {
+    width: 100%;
+  }
+  .p-autocomplete {
+    width: 100%;
+    .p-autocomplete-input {
+      width: 100%;
+    }
+  }
+  .p-inputnumber {
+    width: 100%;
+  }
+  .p-chips {
+    width: 100%;
+    .p-inputtext.p-chips-multiple-container {
+      width: 100%;
+    }
+  }
+}
+
+.p-card {
+  box-shadow: 0px 4px 8px 0px #0000001a;
+}
+
+.p-tabview-panels {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+textarea {
+  resize: none;
+}
+
+.chart-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+}
+
+ul.ui-menu-child {
+  white-space: nowrap;
+  width: auto !important;
+}
+
+.p-menubar.p-menubar-mobile-active .p-menubar-root-list {
+  width: auto;
+}
+
+.p-menubar
+  .p-menubar-root-list
+  > .p-menuitem.p-menuitem-active
+  > .p-menuitem-link,
+.p-menubar
+  .p-menubar-root-list
+  > .p-menuitem.p-menuitem-active
+  > .p-menuitem-link:not(.p-disabled):hover {
+  background: #3f51b5;
+}
+
+hr {
+  width: 100%;
+  border: 1px solid #dee2e6;
+}
+
+.required-field {
+  color: #ff0000;
+  align-self: flex-start;
+}
+
+.vertical,
+.horizontal,
+.pie {
+  .p-card-title {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0rem;
+  }
+
+  .p-card-content {
+    padding: 0px;
+    display: flex;
+  }
+}
+
+.vertical,
+.pie {
+  .chart-wrapper {
+    justify-content: center;
+  }
+}
+
+.vertical {
+  &.x-rotate {
+    .x.axis g.tick > text {
+      transform: rotate(-15deg) translate(-1%, 0%);
+    }
+  }
+
+  .p-card-title {
+    margin-bottom: 2rem;
+  }
+
+  .y.axis g.tick > text {
+    transform: translate(-2%, 0%);
+  }
+
+  .ngx-charts text.textDataLabel {
+    transform: translate(-1%, -2%);
+  }
+}
+
+.horizontal {
+  .chart-wrapper {
+    justify-content: center;
+  }
+
+  .p-card-title {
+    margin-bottom: 2rem;
+  }
+
+  .ngx-charts text.textDataLabel {
+    transform: translate(1%, 0%);
+  }
+}
+
+.table-container {
+  &.col-12 {
+    padding: 0px;
+  }
+
+  .p-card-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .p-card-body {
+    padding: 0.5rem 1.5rem 1.5rem;
+  }
+}
+
+.pie-label {
+  font-family: var(--secondary-font-family);
+}
+
+.ngx-charts text.textDataLabel {
+  font-size: 12px !important;
+  font-weight: 400;
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 0 !important;
+}
+
+.p-overlaypanel:before {
+  display: none !important;
+}
+
+.p-overlaypanel:after {
+  display: none !important;
+}
+
+.p-tabview {
+  .p-tabview-panels,
+  .p-tabview-nav li .p-tabview-nav-link,
+  .p-tabview-nav
+    li:not(.p-highlight):not(.p-disabled):hover
+    .p-tabview-nav-link {
+    background: transparent;
+  }
+
+  .p-tabview-nav {
+    border-color: #019833;
+
+    li .p-tabview-nav-link,
+    .p-tabview-nav
+      li:not(.p-highlight):not(.p-disabled):hover
+      .p-tabview-nav-link {
+      border: none;
+    }
+
+    li .p-tabview-nav-link:not(.p-disabled):focus {
+      box-shadow: inset 0 0 0 0.2rem #01983356;
+    }
+  }
+
+  .p-tabview-title {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .ngx-charts .grid-panel.odd rect {
+    fill: var(--gray-color);
+    opacity: 0.05;
+  }
+}
+
+.legend-labels.horizontal-legend {
+  overflow: auto;
+}

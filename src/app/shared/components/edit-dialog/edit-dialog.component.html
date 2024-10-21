@@ -1,0 +1,215 @@
+<div id="txt-edit-dialog" class="flex flex-column align-items-center">
+  <ng-container *ngSwitchCase="'voltar'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-exclamation-triangle dialog-icon-warning flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-back" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">{{ titulo }}</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-back" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-not-back"
+        type="button"
+        pButton
+        label="Não"
+        class="w-5 p-button-rounded white-back secondary"
+        (click)="nao()"
+      ></button>
+      <div class="mr-3"></div>
+      <button
+        id="bt-yes-back"
+        type="button"
+        pButton
+        label="Sim"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="sim()"
+      ></button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'sair'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-exclamation-triangle dialog-icon-warning flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-exit" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">{{ titulo }}</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-exit" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-cancel-exit"
+        type="button"
+        pButton
+        label="Cancelar"
+        class="w-5 p-button-rounded white-back secondary"
+        (click)="nao()"
+      ></button>
+      <div class="mr-3"></div>
+      <button
+        id="bt-exit-exit"
+        type="button"
+        pButton
+        label="Sair"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="sim()"
+      ></button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'cancelar'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-exclamation-triangle dialog-icon-warning flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-cancel" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">{{ titulo }}</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-cancel" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-not-cancel"
+        type="button"
+        pButton
+        label="Não"
+        class="w-5 p-button-rounded white-back secondary"
+        (click)="nao()"
+      ></button>
+      <div class="mr-3"></div>
+      <button
+        id="bt-yes-cancel"
+        type="button"
+        pButton
+        label="Sim"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="sim()"
+      ></button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'sucesso'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-check dialog-icon-sucesso flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-success" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">{{ titulo }}</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-success" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-back-success"
+        type="button"
+        pButton
+        label="Voltar"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="voltar()"
+      ></button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'compartilhar'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-send dialog-icon-warning flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-share" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">Compartilhar</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-share" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-back-share"
+        type="button"
+        pButton
+        label="Voltar"
+        class="w-5 p-button-rounded white-back secondary"
+        (click)="nao()"
+      ></button>
+      <div class="mr-3"></div>
+      <button
+        id="bt-copy-share"
+        type="button"
+        pButton
+        label="Copiar Link"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="sim()"
+      ></button>
+    </div>
+  </ng-container>
+  <ng-container *ngSwitchCase="'denunciar'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-exclamation-triangle dialog-icon-warning flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-report" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">{{ titulo }}</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-report" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-cancel-report"
+        type="button"
+        pButton
+        label="Cancelar"
+        class="w-5 p-button-rounded white-back secondary"
+        (click)="nao()"
+      ></button>
+      <div class="mr-3"></div>
+      <button
+        id="bt-send-report"
+        type="button"
+        pButton
+        label="Enviar"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="sim()"
+      ></button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'excluir'">
+    <div class="flex w-full justify-content-center align-items-center mt-4">
+      <i class="pi pi-exclamation-triangle dialog-icon-warning flex align-items-center"></i>
+    </div>
+
+    <div id="txt-dialog-body-report" class="flex flex-column w-full align-items-center justify-content-center my-3">
+      <div class="my-2 text-center font-bold text-base md:text-lg lg:text-lg2 mt-3">{{ titulo }}</div>
+      <div class="mt-2 text-center text-sm md:text-sm lg:text-base">{{ subtitulo }}</div>
+      <div class="text-center text-sm md:text-sm lg:text-base">{{ subtitulo2 }}</div>
+    </div>
+
+    <div id="txt-dialog-buttons-report" class="flex w-full justify-content-center mt-3">
+      <button
+        id="bt-cancel-report"
+        type="button"
+        pButton
+        label="Não, cancelar"
+        class="w-5 p-button-rounded white-back secondary"
+        (click)="nao()"
+      ></button>
+      <div class="mr-3"></div>
+      <button
+        id="bt-send-report"
+        type="button"
+        pButton
+        label="Sim, excluir"
+        class="w-5 p-button-rounded secondary-back"
+        (click)="sim()"
+      ></button>
+    </div>
+  </ng-container>
+</div>

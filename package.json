@@ -1,5 +1,5 @@
 {
-  "name": "angular-v18-template",
+  "name": "nautilus_control_front_front",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:angular-v18-template": "node dist/angular-v18-template/server/server.mjs"
+    "serve:ssr:angular-v18-template": "node dist/autilus_control_front_front/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +24,8 @@
     "express": "^4.18.2",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^19.0.0",
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
     "primeng": "^17.18.9",
     "quill": "^2.0.2",
     "rxjs": "~7.8.0",

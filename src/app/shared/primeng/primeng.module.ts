@@ -52,6 +52,9 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { DataViewModule } from 'primeng/dataview';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { SkeletonModule } from 'primeng/skeleton';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+
 @NgModule({
   imports: [],
   exports: [
@@ -113,6 +116,9 @@ import { SkeletonModule } from 'primeng/skeleton';
     DataViewModule,
     ScrollTopModule,
     SkeletonModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule 
   ],
 })
 export class PrimengModule {}

@@ -1,0 +1,7 @@
+#ico-search {
+  position: absolute;
+  top: 10px;
+  left: 210px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

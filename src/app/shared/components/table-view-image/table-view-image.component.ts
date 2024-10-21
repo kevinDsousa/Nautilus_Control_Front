@@ -36,7 +36,6 @@ export class TableViewImageComponent implements OnInit {
         )
         .subscribe(data => {
             this.data = data;
-            console.log(data);
         });
       }
 }

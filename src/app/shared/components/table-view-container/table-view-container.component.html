@@ -1,23 +1,47 @@
-<p-table [value]="data" [columns]="columns">
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th *ngFor="let col of columns">
-          {{col.header}}
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr>
-        <td *ngFor="let col of columns">
-          <ng-container [ngSwitch]="col.field">
-            <ng-container *ngSwitchCase="'Ports'">
-              {{getFormattedPorts(rowData[col.field])}}
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              {{rowData[col.field]}}
-            </ng-container>
+<p-table #dt2 [value]="data" [columns]="columns" dataKey="id" [loading]="loading"
+  [globalFilterFields]="['Names', 'Status', 'Image', 'Ports']" [tableStyle]="{'min-width': '60rem'}">
+
+  <ng-template pTemplate="caption">
+    <div class="flex gap-2">
+      <p-iconField iconPosition="left" class="ml-auto">
+        <input pInputText type="text" (input)="dt2.filterGlobal(getInputValue($event), 'contains')"
+        placeholder="Pesquisar" />
+        <p-inputIcon id="ico-search">
+          <i class="pi pi-search"></i>
+        </p-inputIcon>
+      </p-iconField>
+      <p-button label="Criar Container" icon="pi pi-plus" styleClass="p-button-success mr-2" (click)="createContainer()"></p-button>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{col.header}}
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        <ng-container [ngSwitch]="col.field">
+          <ng-container *ngSwitchCase="'Ports'">
+            {{ getFormattedPorts(rowData[col.field]) }}
           </ng-container>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+          <ng-container *ngSwitchCase="'Image'">
+            {{ truncateString(rowData[col.field], 20) }} <!-- Adjust the maxLength as needed -->
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ rowData[col.field] }}
+          </ng-container>
+        </ng-container>
+      </td>
+      <td class="flex gap-2">
+        <p-button label="Editar" icon="pi pi-pencil" (click)="editRow(rowData)"></p-button>
+        <p-button label="Deletar" icon="pi pi-trash" (click)="deleteRow(rowData)"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+
+</p-table>
