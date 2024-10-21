@@ -5,7 +5,7 @@
 @import '~primeicons/primeicons.css';
 
 :root {
-  --primary-font-family: 'Montserrat', Open Sans, Helvetica Neue Light,
+  --primary-font-family: Open Sans, Helvetica Neue Light,
     Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
   --secondary-font-family: 'Inter', Open Sans, Helvetica Neue Light,
     Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
@@ -17,17 +17,6 @@
   --tertiary-gray-color: #D9D9D9;
   --success-color: #019833;
   --color-black: #1f1f1f;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  src: local('Montserrat'),
-    url(./assets/fonts/montserrat.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: local('Inter'), url(./assets/fonts/inter.ttf) format('truetype');
 }
 
 .p-component,

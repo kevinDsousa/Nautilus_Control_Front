@@ -10,7 +10,7 @@ import { TableViewImageComponent } from '../table-view-image/table-view-image.co
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  title = 'Bem-vindo ao Nautilus Control!';
+  title = '';
 
   ngOnInit(): void {
   }

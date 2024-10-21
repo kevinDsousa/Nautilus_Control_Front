@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { PrimengModule } from '../../primeng/primeng.module';
 import { BaseModule } from '../../base/base.module';
 import { Port } from '../../../model/dto/port';
@@ -7,9 +7,8 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DockerContainerService } from '../../../core/service/docker-container.service';
 import { Router } from '@angular/router';
-import { DialogService } from 'primeng/dynamicdialog';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { CustomDialogComponent } from '../custom-dialog/custom-dialog.component';
 
 @Component({
     selector: 'app-table-view-container',
@@ -19,6 +18,7 @@ import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component'
     styleUrls: ['./table-view-container.component.css']
 })
 export class TableViewContainerComponent implements OnInit {
+
     data: Container[] = [];
     columns = [
         { field: 'Names', header: 'Nome' },
@@ -27,7 +27,9 @@ export class TableViewContainerComponent implements OnInit {
         { field: 'Ports', header: 'Portas' }
     ];
     loading: boolean = false;
-
+    ref: DynamicDialogRef | undefined;
+    showAllContainers: boolean = false;
+    
     constructor(
         private dockerContainerService: DockerContainerService,
         private router: Router,
@@ -40,7 +42,7 @@ export class TableViewContainerComponent implements OnInit {
 
     loadContainers(): void {
         this.loading = true;
-        this.dockerContainerService.listarContainers()
+        this.dockerContainerService.listarContainers(this.showAllContainers)
             .pipe(
                 catchError(error => {
                     this.loading = false;
@@ -66,36 +68,104 @@ export class TableViewContainerComponent implements OnInit {
         return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
     }
 
-    editRow(rowData: Container): void {
-        this.dialogService.open(EditDialogComponent, {
-            data: {
-                titulo: 'Editar Container',
-                subtitulo: 'Deseja editar o container?',
-                subtitulo2: `Nome: ${rowData.Names[0]}`,
-                onSim: () => {
-                    this.router.navigate(['/container/edit', rowData.Id]);
-                }
-            }
-        })
-    }
-
-    deleteRow(rowData: Container): void {
-        this.dialogService.open(DeleteDialogComponent, {
-            data: {
-                titulo: 'Deletar Container',
-                subtitulo: 'Deseja deletar o container?',
-                subtitulo2: `Nome: ${rowData.Names[0]}`,
-                onSim: () => {
-                    this.dockerContainerService.excluir(parseInt(rowData.Id))
-                        .subscribe(() => {
-                            this.loadContainers();
-                        });
-                }
-            }
-        })
-    }
-
-    createContainer(): void {
+    createContainer() {
         console.log('createContainer');
+    }
+
+    mostrarTodosContainers() {
+        this.showAllContainers = !this.showAllContainers;
+        this.loadContainers();
+    }
+
+    restartContainer(container: Container) {
+        const onSim = new EventEmitter<void>();
+        this.dialogService.open(CustomDialogComponent, {
+            header: 'Reiniciar Container',
+            modal: true,
+            width: '400px',
+            position: 'center',
+            styleClass: 'post-dialog',
+            data: {
+                titulo: 'Deseja reiniciar o container?',
+                subtitulo: 'Esta ação irá reiniciar o container.',
+                subtitulo2: 'Você pode confirmar ou cancelar.',
+                onSim: onSim
+            }
+        });
+        this.ref.onClose.subscribe(() => {
+            this.dockerContainerService.reiniciarContainer(container.Id).subscribe(() => {
+                console.log('Container reiniciado:', container);
+                this.loadContainers();
+            });
+        });
+    }
+
+    removeContainer(container: Container) {
+        const onSim = new EventEmitter<void>();
+        this.ref = this.dialogService.open(CustomDialogComponent, {
+            header: 'Remover Container',
+            modal: true,
+            width: '400px',
+            position: 'center',
+            styleClass: 'post-dialog',
+            data: {
+                titulo: 'Deseja remover o container?',
+                subtitulo: 'Esta ação não pode ser desfeita.',
+                subtitulo2: 'Você pode confirmar ou cancelar.',
+                onSim: onSim
+            }
+        });
+        this.ref.onClose.subscribe(() => {
+            this.dockerContainerService.removerContainer(container.Id).subscribe(() => {
+                console.log('Container removido:', container);
+                this.loadContainers();
+            });
+        });
+    }
+
+    stopContainer(container: Container) {
+        const onSim = new EventEmitter<void>();
+        this.dialogService.open(CustomDialogComponent, {
+            header: 'Parar Container',
+            modal: true,
+            width: '400px',
+            position: 'center',
+            styleClass: 'post-dialog',
+            data: {
+                titulo: 'Deseja parar o container?',
+                subtitulo: 'Esta ação irá parar o container.',
+                subtitulo2: 'Você pode confirmar ou cancelar.',
+                onSim: onSim
+            },
+        });
+        this.ref.onClose.subscribe(() => {
+            this.dockerContainerService.pararContainer(container.Id).subscribe(() => {
+                console.log('Container parado:', container);
+                this.loadContainers();
+            });
+        });
+    }
+
+    startContainer(container: Container) {
+        const onSim = new EventEmitter<void>();
+        this.dialogService.open(CustomDialogComponent, {
+            header: 'Iniciar Container',
+            modal: true,
+            width: '400px',
+            position: 'center',
+            styleClass: 'post-dialog',
+            data: {
+                titulo: 'Deseja iniciar o container?',
+                subtitulo: 'Esta ação irá iniciar o container.',
+                subtitulo2: 'Você pode confirmar ou cancelar.',
+                onSim: onSim
+            }
+        });
+        this.ref.onClose.subscribe(() => {
+            this.dockerContainerService.iniciarContainer(container.Id).subscribe(() => {
+                console.log('Container iniciado:', container);
+                this.loadContainers();
+            });
+        })
     }
 }

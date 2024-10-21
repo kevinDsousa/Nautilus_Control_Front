@@ -1,17 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { PrimengModule } from '@app/shared/primeng/primeng.module';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { PrimengModule } from '@app/shared/primeng/primeng.module';
 
 @Component({
-  selector: 'app-edit-dialog',
+  selector: 'app-custom-dialog',
   standalone: true,
   imports: [CommonModule, PrimengModule],
-  templateUrl: './edit-dialog.component.html',
-  styleUrls: ['./edit-dialog.component.scss'],
+  templateUrl: './custom-dialog.component.html',
+  styleUrls: ['./custom-dialog.component.scss'],
 })
-export class EditDialogComponent {
-  icone: string;
+export class CustomDialogComponent {
   titulo: string;
   subtitulo: string;
   subtitulo2: string;
@@ -21,13 +20,9 @@ export class EditDialogComponent {
   @Output() onVoltar = new EventEmitter<void>();
 
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig) {
-    this.titulo = this.config.data.titulo;
-    this.subtitulo = this.config.data.subtitulo;
-    this.subtitulo2 = this.config.data.subtitulo2;
-
-    this.onSim = this.config.data.onSim || new EventEmitter<void>();
-    this.onNao = this.config.data.onNao || new EventEmitter<void>();
-    this.onVoltar = this.config.data.onVoltar || new EventEmitter<void>();
+    this.titulo = this.config.data?.titulo || 'Título padrão';
+    this.subtitulo = this.config.data?.subtitulo || '';
+    this.subtitulo2 = this.config.data?.subtitulo2 || '';
   }
 
   sim() {

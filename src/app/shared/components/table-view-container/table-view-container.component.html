@@ -11,6 +11,7 @@
         </p-inputIcon>
       </p-iconField>
       <p-button label="Criar Container" icon="pi pi-plus" styleClass="p-button-success mr-2" (click)="createContainer()"></p-button>
+      <p-button label="Mostrar todos" icon="pi pi-check" styleClass="p-button-warning mr-2" (click)="mostrarTodosContainers()"></p-button>
     </div>
   </ng-template>
 
@@ -30,7 +31,7 @@
             {{ getFormattedPorts(rowData[col.field]) }}
           </ng-container>
           <ng-container *ngSwitchCase="'Image'">
-            {{ truncateString(rowData[col.field], 20) }} <!-- Adjust the maxLength as needed -->
+            {{ truncateString(rowData[col.field], 20) }}
           </ng-container>
           <ng-container *ngSwitchDefault>
             {{ rowData[col.field] }}
@@ -38,8 +39,14 @@
         </ng-container>
       </td>
       <td class="flex gap-2">
-        <p-button label="Editar" icon="pi pi-pencil" (click)="editRow(rowData)"></p-button>
-        <p-button label="Deletar" icon="pi pi-trash" (click)="deleteRow(rowData)"></p-button>
+        <p-button icon="pi pi-play" (click)="startContainer(rowData)" 
+          [disabled]="rowData.State === 'running'"></p-button>        
+        <p-button icon="pi pi-stop" (click)="stopContainer(rowData)" 
+          [disabled]="rowData.State !== 'running'"></p-button>
+        <p-button icon="pi pi-trash" (click)="removeContainer(rowData)" 
+          [disabled]="rowData.State == 'running'"></p-button>
+        <p-button icon="pi pi-refresh" (click)="restartContainer(rowData)"
+          [disabled]="rowData.State !== 'running'"></p-button>
       </td>
     </tr>
   </ng-template>
