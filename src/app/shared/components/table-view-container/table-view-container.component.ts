@@ -73,7 +73,10 @@ export class TableViewContainerComponent implements OnInit, OnDestroy {
     }
 
     getFormattedPorts(ports: Port[]): string {
-        return ports.map(port => `${port.PublicPort}/${port.Type}`).join(', ');
+        return ports
+            .filter(port => port.PublicPort != null)
+            .map(port => `${port.PublicPort}/${port.Type}`)
+            .join(', ');
     }
 
     getInputValue(event: Event): string {
