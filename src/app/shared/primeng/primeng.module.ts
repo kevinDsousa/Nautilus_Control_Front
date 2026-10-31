@@ -54,6 +54,7 @@ import { ScrollTopModule } from 'primeng/scrolltop';
 import { SkeletonModule } from 'primeng/skeleton';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { TreeModule } from 'primeng/tree';
 
 @NgModule({
   imports: [],
@@ -118,7 +119,8 @@ import { InputIconModule } from 'primeng/inputicon';
     SkeletonModule,
     IconFieldModule,
     InputIconModule,
-    InputTextModule 
+    InputTextModule,
+    TreeModule
   ],
 })
 export class PrimengModule {}

@@ -1,35 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseHttpService } from './base-http.service';
-import { Container } from '../../model/dto/container';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Container } from '../../model/dto/container';
 
 @Injectable({
     providedIn: 'root',
 })
-export class DockerContainerService extends BaseHttpService<Container> {
-    constructor(http: HttpClient) {
-        super(http, 'docker/containers'); 
+export class DockerContainerService {
+    constructor(private http: HttpClient) {}
+
+    private url(hostId: string): string {
+        return `${environment.urlApi}docker/hosts/${hostId}/containers`;
     }
 
-    listarContainers(showAll: boolean = false): Observable<Container[]> {
+    listarContainers(hostId: string, showAll: boolean = false): Observable<Container[]> {
         const params = new HttpParams().set('showAll', showAll.toString());
-        return this.http.get<Container[]>(`${this.url}/list`, { params }); 
+        return this.http.get<Container[]>(`${this.url(hostId)}/list`, { params });
     }
 
-    reiniciarContainer(containerId: string): Observable<Container> {
-        return this.http.put<Container>(`${this.url}/${containerId}/restart`, {});
+    reiniciarContainer(hostId: string, containerId: string): Observable<Container> {
+        return this.http.put<Container>(`${this.url(hostId)}/${containerId}/restart`, {});
     }
 
-    removerContainer(containerId: string): Observable<Container> {
-        return this.http.delete<Container>(`${this.url}/${containerId}/remove`);
+    removerContainer(hostId: string, containerId: string): Observable<Container> {
+        return this.http.delete<Container>(`${this.url(hostId)}/${containerId}/remove`);
     }
 
-    pararContainer(containerId: string): Observable<Container> {
-        return this.http.put<Container>(`${this.url}/${containerId}/stop`, {});
+    pararContainer(hostId: string, containerId: string): Observable<Container> {
+        return this.http.put<Container>(`${this.url(hostId)}/${containerId}/stop`, {});
     }
 
-    iniciarContainer(containerId: string): Observable<Container> {
-        return this.http.post<Container>(`${this.url}/${containerId}/start`, {});
+    iniciarContainer(hostId: string, containerId: string): Observable<Container> {
+        return this.http.post<Container>(`${this.url(hostId)}/${containerId}/start`, {});
     }
 }

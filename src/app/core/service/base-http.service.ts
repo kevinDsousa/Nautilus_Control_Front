@@ -15,7 +15,7 @@ export class BaseHttpService<T> {
     return this.http.get<T[]>(this.url);
   }
 
-  obterPorId(id: number): Observable<T> {
+  obterPorId(id: string | number): Observable<T> {
     return this.http.get<T>(`${this.url}/${id}`);
   }
 
@@ -23,11 +23,11 @@ export class BaseHttpService<T> {
     return this.http.post<T>(this.url, entidade);
   }
 
-  atualizar(entidade: T, id?: number): Observable<T> {
+  atualizar(entidade: T, id?: string | number): Observable<T> {
     return this.http.put<T>(`${this.url}/${id}`, entidade);
   }
 
-  excluir(id: number): Observable<any> {
+  excluir(id: string | number): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
   }
 

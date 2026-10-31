@@ -5,11 +5,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { HttpClientModule } from '@angular/common/http';
+import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, SidebarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

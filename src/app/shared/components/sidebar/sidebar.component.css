@@ -1,0 +1,17 @@
+.host-tree-node {
+    width: 100%;
+}
+
+.host-tree-node .node-actions {
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.host-tree-node:hover .node-actions {
+    opacity: 1;
+}
+
+.host-tree-node.active-host {
+    font-weight: 700;
+    color: var(--primary-color, #2196F3);
+}

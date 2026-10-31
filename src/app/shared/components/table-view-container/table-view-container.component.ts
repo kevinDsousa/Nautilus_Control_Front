@@ -1,11 +1,12 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { PrimengModule } from '../../primeng/primeng.module';
 import { BaseModule } from '../../base/base.module';
 import { Port } from '../../../model/dto/port';
 import { Container } from '../../../model/dto/container';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DockerContainerService } from '../../../core/service/docker-container.service';
+import { HostContextService } from '../../../core/service/host-context.service';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CustomDialogComponent } from '../custom-dialog/custom-dialog.component';
@@ -17,7 +18,7 @@ import { CustomDialogComponent } from '../custom-dialog/custom-dialog.component'
     templateUrl: './table-view-container.component.html',
     styleUrls: ['./table-view-container.component.css']
 })
-export class TableViewContainerComponent implements OnInit {
+export class TableViewContainerComponent implements OnInit, OnDestroy {
 
     data: Container[] = [];
     columns = [
@@ -29,20 +30,36 @@ export class TableViewContainerComponent implements OnInit {
     loading: boolean = false;
     ref: DynamicDialogRef | undefined;
     showAllContainers: boolean = false;
-    
+    activeHostId: string | null = null;
+
+    private hostSubscription?: Subscription;
+
     constructor(
         private dockerContainerService: DockerContainerService,
+        private hostContextService: HostContextService,
         private router: Router,
         private dialogService: DialogService,
     ) { }
 
     ngOnInit(): void {
-        this.loadContainers();
+        this.hostSubscription = this.hostContextService.activeHostId$.subscribe(hostId => {
+            this.activeHostId = hostId;
+            this.loadContainers();
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.hostSubscription?.unsubscribe();
     }
 
     loadContainers(): void {
+        if (!this.activeHostId) {
+            this.data = [];
+            return;
+        }
+
         this.loading = true;
-        this.dockerContainerService.listarContainers(this.showAllContainers)
+        this.dockerContainerService.listarContainers(this.activeHostId, this.showAllContainers)
             .pipe(
                 catchError(error => {
                     this.loading = false;
@@ -78,8 +95,12 @@ export class TableViewContainerComponent implements OnInit {
     }
 
     restartContainer(container: Container) {
+        if (!this.activeHostId) {
+            return;
+        }
+        const hostId = this.activeHostId;
         const onSim = new EventEmitter<void>();
-        this.dialogService.open(CustomDialogComponent, {
+        this.ref = this.dialogService.open(CustomDialogComponent, {
             header: 'Reiniciar Container',
             modal: true,
             width: '400px',
@@ -93,14 +114,17 @@ export class TableViewContainerComponent implements OnInit {
             }
         });
         this.ref.onClose.subscribe(() => {
-            this.dockerContainerService.reiniciarContainer(container.Id).subscribe(() => {
-                console.log('Container reiniciado:', container);
+            this.dockerContainerService.reiniciarContainer(hostId, container.Id).subscribe(() => {
                 this.loadContainers();
             });
         });
     }
 
     removeContainer(container: Container) {
+        if (!this.activeHostId) {
+            return;
+        }
+        const hostId = this.activeHostId;
         const onSim = new EventEmitter<void>();
         this.ref = this.dialogService.open(CustomDialogComponent, {
             header: 'Remover Container',
@@ -116,16 +140,19 @@ export class TableViewContainerComponent implements OnInit {
             }
         });
         this.ref.onClose.subscribe(() => {
-            this.dockerContainerService.removerContainer(container.Id).subscribe(() => {
-                console.log('Container removido:', container);
+            this.dockerContainerService.removerContainer(hostId, container.Id).subscribe(() => {
                 this.loadContainers();
             });
         });
     }
 
     stopContainer(container: Container) {
+        if (!this.activeHostId) {
+            return;
+        }
+        const hostId = this.activeHostId;
         const onSim = new EventEmitter<void>();
-        this.dialogService.open(CustomDialogComponent, {
+        this.ref = this.dialogService.open(CustomDialogComponent, {
             header: 'Parar Container',
             modal: true,
             width: '400px',
@@ -139,16 +166,19 @@ export class TableViewContainerComponent implements OnInit {
             },
         });
         this.ref.onClose.subscribe(() => {
-            this.dockerContainerService.pararContainer(container.Id).subscribe(() => {
-                console.log('Container parado:', container);
+            this.dockerContainerService.pararContainer(hostId, container.Id).subscribe(() => {
                 this.loadContainers();
             });
         });
     }
 
     startContainer(container: Container) {
+        if (!this.activeHostId) {
+            return;
+        }
+        const hostId = this.activeHostId;
         const onSim = new EventEmitter<void>();
-        this.dialogService.open(CustomDialogComponent, {
+        this.ref = this.dialogService.open(CustomDialogComponent, {
             header: 'Iniciar Container',
             modal: true,
             width: '400px',
@@ -162,8 +192,7 @@ export class TableViewContainerComponent implements OnInit {
             }
         });
         this.ref.onClose.subscribe(() => {
-            this.dockerContainerService.iniciarContainer(container.Id).subscribe(() => {
-                console.log('Container iniciado:', container);
+            this.dockerContainerService.iniciarContainer(hostId, container.Id).subscribe(() => {
                 this.loadContainers();
             });
         })

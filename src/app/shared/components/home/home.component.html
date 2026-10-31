@@ -1,4 +1,11 @@
-<h1>{{ title }}</h1>
+<div *ngIf="!activeHostId" class="p-4">
+    <p>Nenhum host Docker selecionado. Escolha um host no menu lateral para ver seus containers e imagens.</p>
+</div>
 
-<h2>Docker Containers</h2>
-<app-table-view-container></app-table-view-container>
+<div *ngIf="activeHostId">
+    <h2>Docker Containers</h2>
+    <app-table-view-container></app-table-view-container>
+
+    <h2>Docker Images</h2>
+    <app-table-view-image></app-table-view-image>
+</div>
