@@ -16,14 +16,19 @@
         </span>
     </div>
 
-    <p-tree [value]="treeNodes" selectionMode="single" (onNodeSelect)="onNodeSelect($event)" styleClass="host-tree">
+    <small class="block mb-2 text-color-secondary">Arraste um host ou pasta sobre outra pasta para movê-lo para dentro dela.</small>
+
+    <p-tree [value]="treeNodes" selectionMode="single" (onNodeSelect)="onNodeSelect($event)" styleClass="host-tree"
+            [draggableNodes]="true" [droppableNodes]="true" (onNodeDrop)="onNodeDrop($event)">
         <ng-template let-node pTemplate="default">
-            <div class="flex align-items-center justify-content-between w-full host-tree-node" [class.active-host]="isActiveHostNode(node)">
+            <div class="flex align-items-center justify-content-between w-full host-tree-node"
+                 [class.active-host]="isActiveHostNode(node)">
                 <span>{{ node.label }}</span>
                 <span class="node-actions flex gap-1">
                     <button *ngIf="node.data?.type === 'folder'" pButton type="button" icon="pi pi-folder-plus" class="p-button-text p-button-sm" pTooltip="Nova subpasta" (click)="novaSubpasta(node, $event)"></button>
                     <button *ngIf="node.data?.type === 'folder'" pButton type="button" icon="pi pi-plus" class="p-button-text p-button-sm" pTooltip="Novo host aqui" (click)="novoHostEmPasta(node, $event)"></button>
                     <button *ngIf="node.data?.type === 'host'" pButton type="button" icon="pi pi-bolt" class="p-button-text p-button-sm" pTooltip="Testar conexão" (click)="testarConexaoNode(node, $event)"></button>
+                    <button *ngIf="estaDentroDeUmaPasta(node)" pButton type="button" icon="pi pi-arrow-up" class="p-button-text p-button-sm" pTooltip="Mover para a raiz" (click)="moverParaRaiz(node, $event)"></button>
                     <button pButton type="button" icon="pi pi-pencil" class="p-button-text p-button-sm" pTooltip="Editar" (click)="editarNode(node, $event)"></button>
                     <button pButton type="button" icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" pTooltip="Excluir" (click)="excluirNode(node, $event)"></button>
                 </span>

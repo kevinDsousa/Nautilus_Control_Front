@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimengModule } from '../../primeng/primeng.module';
 import { BaseModule } from '../../base/base.module';
-import { TreeNode } from 'primeng/api';
+import { TreeDragDropService, TreeNode } from 'primeng/api';
+import { TreeNodeDropEvent } from 'primeng/tree';
 import { DialogService } from 'primeng/dynamicdialog';
 import { forkJoin } from 'rxjs';
 import { DockerHostService } from '../../../core/service/docker-host.service';
@@ -17,6 +18,7 @@ import { HostFolderDialogComponent } from '../host-folder-dialog/host-folder-dia
   selector: 'app-sidebar',
   standalone: true,
   imports: [CommonModule, PrimengModule, BaseModule],
+  providers: [TreeDragDropService],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
@@ -144,6 +146,64 @@ export class SidebarComponent implements OnInit {
       next: (ok) => this.ultimoTeste = { nome: host.name, ok },
       error: () => this.ultimoTeste = { nome: host.name, ok: false },
     });
+  }
+
+  /**
+   * PrimeNG Tree mantém internamente seus próprios listeners de drag/drop no <li> de cada nó
+   * (mesmo com draggableNodes/droppableNodes desligados), então handlers DnD customizados no
+   * template do nó conflitam com eles. Por isso usamos a API oficial de DnD da p-tree aqui.
+   */
+  onNodeDrop(event: TreeNodeDropEvent): void {
+    const dragNode = event.dragNode;
+    const dropNode = event.dropNode;
+    if (!dragNode || !dropNode || dropNode.data?.type !== 'folder') {
+      // só é permitido soltar sobre uma pasta; para tirar de uma pasta existe o botão dedicado
+      return;
+    }
+    this.moveNode(dragNode, dropNode.data.folder.id);
+  }
+
+  moverParaRaiz(node: TreeNode, event: Event): void {
+    event.stopPropagation();
+    this.moveNode(node, null);
+  }
+
+  estaDentroDeUmaPasta(node: TreeNode): boolean {
+    if (node.data?.type === 'folder') {
+      return !!node.data.folder.parentId;
+    }
+    return !!node.data?.host?.folderId;
+  }
+
+  private moveNode(node: TreeNode, targetFolderId: string | null): void {
+    if (node.data.type === 'folder') {
+      const folder: HostFolder = node.data.folder;
+      if ((folder.parentId ?? null) === targetFolderId) {
+        return;
+      }
+      if (targetFolderId && this.isDescendantOf(targetFolderId, folder.id)) {
+        return;
+      }
+      this.hostFolderService.mover(folder.id, targetFolderId).subscribe(() => this.loadAll());
+    } else {
+      const host: DockerHost = node.data.host;
+      if ((host.folderId ?? null) === targetFolderId) {
+        return;
+      }
+      this.dockerHostService.moverParaPasta(host.id, targetFolderId).subscribe(() => this.loadAll());
+    }
+  }
+
+  private isDescendantOf(nodeId: string, ancestorId: string): boolean {
+    let current: string | null | undefined = nodeId;
+    while (current) {
+      if (current === ancestorId) {
+        return true;
+      }
+      const folder = this.folders.find(f => f.id === current);
+      current = folder ? (folder.parentId ?? null) : null;
+    }
+    return false;
   }
 
   private abrirDialogPasta(folder: HostFolder | undefined, parentId: string | null): void {

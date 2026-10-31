@@ -19,4 +19,8 @@ export class DockerHostService extends BaseHttpService<DockerHost> {
     testarConexaoHost(id: string): Observable<boolean> {
         return this.http.post<boolean>(`${this.url}/${id}/test`, {});
     }
+
+    moverParaPasta(id: string, folderId: string | null): Observable<DockerHost> {
+        return this.http.patch<DockerHost>(`${this.url}/${id}/move`, { folderId });
+    }
 }
